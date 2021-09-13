@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MyTodo</string>
+
+    <!--  Label Hint  -->
+    <string name="label_title">Title</string>
+    <string name="label_description">Description</string>
+    <string name="label_priority_level">Priority Level</string>
+
+    <string name="priority_high">High</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_low">Low</string>
+
+    <string name="submit">submit</string>
+    <string name="empty_statement">Todo is empty</string>
+
+    <string name="description">Description:\n%1$s</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
+    <string name="settins">Settings</string>
+    <string name="home">Home</string>
+    <string name="menu">Menu</string>
+
+    <!-- key for preference  -->
+    <string name="notification_key">notification</string>
+</resources>

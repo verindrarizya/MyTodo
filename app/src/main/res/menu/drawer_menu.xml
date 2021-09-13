@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu">
+        <menu>
+            <item
+                android:id="@+id/listFragment"
+                android:icon="@drawable/ic_home_black_24"
+                android:title="@string/home"/>
+            <item android:id="@+id/settingsActivity_dest"
+                android:icon="@drawable/ic_settings_black_24"
+                android:title="@string/settins"/>
+        </menu>
+    </item>
+
+</menu>
