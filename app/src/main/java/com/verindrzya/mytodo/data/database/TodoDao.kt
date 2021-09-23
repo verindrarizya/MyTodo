@@ -2,6 +2,7 @@ package com.verindrzya.mytodo.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.*
 
 @Dao
@@ -21,6 +22,6 @@ interface TodoDao {
 
     // The Int type parameter tells Room to use a PositionalDataSource object
     @Query("SELECT * FROM todos")
-    fun getItems(): DataSource.Factory<Int, Todo>
+    fun getItems(): PagingSource<Int, Todo>
 
 }

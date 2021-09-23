@@ -1,6 +1,7 @@
 package com.verindrzya.mytodo
 
 import androidx.lifecycle.*
+import androidx.paging.liveData
 import androidx.paging.toLiveData
 import com.verindrzya.mytodo.data.TodoRepository
 import com.verindrzya.mytodo.data.database.Todo
@@ -14,7 +15,7 @@ class TodoViewModel(private val todoRepository: TodoRepository): ViewModel() {
         todoRepository.getItem(id)
     }
 
-    val todoList get() = todoRepository.getItems()
+    val todoList get() = todoRepository.getItems().liveData
 
     fun getItem(id: Int) {
         todoId.value = id

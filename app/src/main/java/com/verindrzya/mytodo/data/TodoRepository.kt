@@ -1,5 +1,7 @@
 package com.verindrzya.mytodo.data
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.toLiveData
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.data.database.TodoDao
@@ -26,7 +28,14 @@ class TodoRepository(
 
     fun getItem(id: Int) = todoDao.getItem(id)
 
-    fun getItems() = todoDao.getItems().toLiveData(PAGED_SIZE_VALUE)
-
+    fun getItems() = Pager(
+        config = PagingConfig(
+            pageSize = PAGED_SIZE_VALUE,
+            enablePlaceholders = true
+        ),
+        pagingSourceFactory = {
+            todoDao.getItems()
+        }
+    )
 
 }

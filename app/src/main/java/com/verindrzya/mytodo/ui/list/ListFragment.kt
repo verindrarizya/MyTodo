@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,8 @@ import com.verindrzya.mytodo.TodoViewModel
 import com.verindrzya.mytodo.TodoViewModelFactory
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.databinding.FragmentListBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
 
@@ -68,11 +71,9 @@ class ListFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.rvList)
 
-        viewModel.todoList.observe(viewLifecycleOwner) { todoList ->
-            if (todoList.isEmpty()) {
-                setEmptyStatement()
-            } else {
-                adapter.submitList(todoList)
+        viewModel.todoList.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                adapter.submitData(it)
             }
         }
 
