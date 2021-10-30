@@ -1,12 +1,12 @@
 package com.verindrzya.mytodo.data
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.toLiveData
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.data.database.TodoDao
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TodoRepository(
+@Singleton
+class TodoRepository @Inject constructor(
     val todoDao: TodoDao
 ) {
 
@@ -28,14 +28,6 @@ class TodoRepository(
 
     fun getItem(id: Int) = todoDao.getItem(id)
 
-    fun getItems() = Pager(
-        config = PagingConfig(
-            pageSize = PAGED_SIZE_VALUE,
-            enablePlaceholders = true
-        ),
-        pagingSourceFactory = {
-            todoDao.getItems()
-        }
-    )
+    fun getItems() = todoDao.getItems()
 
 }

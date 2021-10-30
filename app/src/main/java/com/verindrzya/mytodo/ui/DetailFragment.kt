@@ -1,27 +1,27 @@
 package com.verindrzya.mytodo.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.verindrzya.mytodo.R
 import com.verindrzya.mytodo.TodoApplication
 import com.verindrzya.mytodo.TodoViewModel
-import com.verindrzya.mytodo.TodoViewModelFactory
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.databinding.FragmentDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val viewModel: TodoViewModel by activityViewModels {
-        TodoViewModelFactory(
-            (activity?.application as TodoApplication).todoRepository
-        )
-    }
+    val viewModel: TodoViewModel by hiltNavGraphViewModels(R.id.main_nav)
 
     private lateinit var item: Todo
 

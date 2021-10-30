@@ -1,38 +1,32 @@
 package com.verindrzya.mytodo.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.verindrzya.mytodo.R
-import com.verindrzya.mytodo.TodoApplication
 import com.verindrzya.mytodo.TodoViewModel
-import com.verindrzya.mytodo.TodoViewModelFactory
-import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.databinding.FragmentListBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ListFragment : Fragment() {
 
-    private val viewModel: TodoViewModel by activityViewModels {
-        TodoViewModelFactory(
-            (activity?.application as TodoApplication).todoRepository
-        )
-    }
+    val viewModel: TodoViewModel by hiltNavGraphViewModels(R.id.main_nav)
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var currentItem: Todo
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +47,14 @@ class ListFragment : Fragment() {
         binding.rvList.layoutManager = LinearLayoutManager(context)
         binding.rvList.adapter = adapter
 
-        val simpleCallback = object:ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                return makeMovementFlags(0, ItemTouchHelper.RIGHT)
+            }
+
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -66,14 +67,23 @@ class ListFragment : Fragment() {
                 val currentItem = (viewHolder as TodoListAdapter.TodoViewHolder).currentItem
                 viewModel.deleteItem(currentItem)
             }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        })
         itemTouchHelper.attachToRecyclerView(binding.rvList)
 
-        viewModel.todoList.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.todoList.collectLatest {
                 adapter.submitData(it)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadState: CombinedLoadStates ->
+                val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                if (isListEmpty) {
+                    setEmptyStatement()
+                } else {
+                    displayList()
+                }
             }
         }
 
@@ -84,6 +94,11 @@ class ListFragment : Fragment() {
         binding.rvList.visibility = View.GONE
         binding.tvStatement.visibility = View.VISIBLE
         binding.tvStatement.text = getString(R.string.empty_statement)
+    }
+
+    private fun displayList() {
+        binding.tvStatement.visibility = View.GONE
+        binding.rvList.visibility = View.VISIBLE
     }
 
     private fun navigateToAdd() {
