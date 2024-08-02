@@ -1,23 +1,19 @@
 package com.verindrzya.mytodo.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.verindrzya.mytodo.R
-import com.verindrzya.mytodo.TodoApplication
 import com.verindrzya.mytodo.TodoViewModel
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
@@ -48,7 +44,7 @@ class AddFragment : Fragment() {
 
         if (id > 0) {
             // Update
-                 viewModel.getItem(id)
+            viewModel.getItem(id)
             viewModel.todoItem.observe(viewLifecycleOwner, this::bind)
         } else {
             // Add New
@@ -61,7 +57,7 @@ class AddFragment : Fragment() {
         with(binding) {
             textInputTitle.setText(item.title)
             textInputDescription.setText(item.description)
-            when(item.priorityLevel) {
+            when (item.priorityLevel) {
                 getString(R.string.priority_high) -> radioHigh.isChecked = true
                 getString(R.string.priority_medium) -> radioMedium.isChecked = true
                 getString(R.string.priority_low) -> radioLow.isChecked = true
@@ -78,7 +74,7 @@ class AddFragment : Fragment() {
         Log.d("TestChecked2", "onViewCreated: $radioCheckedValue")
 
         binding.rgPriority.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId) {
+            when (checkedId) {
                 R.id.radio_high -> radioCheckedValue = getString(R.string.priority_high)
                 R.id.radio_medium -> radioCheckedValue = getString(R.string.priority_medium)
                 R.id.radio_low -> radioCheckedValue = getString(R.string.priority_low)
@@ -94,10 +90,11 @@ class AddFragment : Fragment() {
             tilTitle.error = ""
             tilDescription.error = ""
 
-            return if(textInputTitle.text.isNullOrBlank() || textInputDescription.text.isNullOrBlank()) {
+            return if (textInputTitle.text.isNullOrBlank() || textInputDescription.text.isNullOrBlank()) {
                 when {
                     textInputTitle.text.isNullOrBlank() -> tilTitle.error = "Please fill in title"
-                    textInputDescription.text.isNullOrBlank() -> tilDescription.error = "Please fill in description"
+                    textInputDescription.text.isNullOrBlank() -> tilDescription.error =
+                        "Please fill in description"
                 }
 
                 false

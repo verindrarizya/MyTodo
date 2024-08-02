@@ -9,8 +9,8 @@ import com.verindrzya.mytodo.R
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.databinding.ItemListBinding
 
-class TodoListAdapter(private val onClicked: (Todo) -> Unit = {})
-    : PagingDataAdapter<Todo, TodoListAdapter.TodoViewHolder>(DIFF_CALLBACK) {
+class TodoListAdapter(private val onClicked: (Todo) -> Unit = {}) :
+    PagingDataAdapter<Todo, TodoListAdapter.TodoViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,7 +25,8 @@ class TodoListAdapter(private val onClicked: (Todo) -> Unit = {})
         }
     }
 
-    inner class TodoViewHolder(private val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class TodoViewHolder(private val binding: ItemListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         lateinit var currentItem: Todo
 
@@ -33,17 +34,18 @@ class TodoListAdapter(private val onClicked: (Todo) -> Unit = {})
             with(binding) {
                 currentItem = item
                 tvTitle.text = item.title
-                tvDescription.text = itemView.context.getString(R.string.description, item.description)
+                tvDescription.text =
+                    itemView.context.getString(R.string.description, item.description)
                 tvPriorityLevel.text = item.priorityLevel
             }
 
-            itemView.setOnClickListener{ onClicked(item) }
+            itemView.setOnClickListener { onClicked(item) }
         }
 
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Todo>(){
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Todo>() {
             override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
                 return oldItem.id == newItem.id
             }

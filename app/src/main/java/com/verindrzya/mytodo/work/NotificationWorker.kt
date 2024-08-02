@@ -14,7 +14,7 @@ import com.verindrzya.mytodo.R
 class NotificationWorker(
     context: Context,
     workerParams: WorkerParameters
-) : Worker(context, workerParams){
+) : Worker(context, workerParams) {
 
     companion object {
         private const val CHANNEL_ID = "101"
@@ -33,9 +33,14 @@ class NotificationWorker(
             .setAutoCancel(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
 
-            val notificationManager: NotificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager: NotificationManager =
+                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 

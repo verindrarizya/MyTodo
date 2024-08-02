@@ -6,10 +6,11 @@
             <item
                 android:id="@+id/listFragment"
                 android:icon="@drawable/ic_home_black_24"
-                android:title="@string/home"/>
-            <item android:id="@+id/settingsActivity_dest"
+                android:title="@string/home" />
+            <item
+                android:id="@+id/settingsActivity_dest"
                 android:icon="@drawable/ic_settings_black_24"
-                android:title="@string/settins"/>
+                android:title="@string/settins" />
         </menu>
     </item>
 

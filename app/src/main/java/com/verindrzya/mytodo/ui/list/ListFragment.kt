@@ -78,7 +78,8 @@ class ListFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest { loadState: CombinedLoadStates ->
-                val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                val isListEmpty =
+                    loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 if (isListEmpty) {
                     setEmptyStatement()
                 } else {

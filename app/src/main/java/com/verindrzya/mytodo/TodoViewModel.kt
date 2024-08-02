@@ -1,19 +1,19 @@
 package com.verindrzya.mytodo
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.liveData
-import androidx.paging.toLiveData
 import com.verindrzya.mytodo.data.TodoRepository
 import com.verindrzya.mytodo.data.database.Todo
-import com.verindrzya.mytodo.data.database.TodoDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TodoViewModel @Inject constructor(private val todoRepository: TodoRepository): ViewModel() {
+class TodoViewModel @Inject constructor(private val todoRepository: TodoRepository) : ViewModel() {
 
     private val todoId: MutableLiveData<Int> = MutableLiveData()
     val todoItem = Transformations.switchMap(todoId) { id ->

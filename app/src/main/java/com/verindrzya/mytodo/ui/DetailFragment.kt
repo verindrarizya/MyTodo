@@ -1,20 +1,21 @@
 package com.verindrzya.mytodo.ui
 
-import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.verindrzya.mytodo.R
-import com.verindrzya.mytodo.TodoApplication
 import com.verindrzya.mytodo.TodoViewModel
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -56,12 +57,13 @@ class DetailFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.action_delete -> {
                 viewModel.deleteItem(this.item)
                 findNavController().navigateUp()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -76,7 +78,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun navigateToAdd() {
-        val action  = DetailFragmentDirections.actionDetailFragmentToAddFragment(item.id)
+        val action = DetailFragmentDirections.actionDetailFragmentToAddFragment(item.id)
         findNavController().navigate(action)
     }
 
