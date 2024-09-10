@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -43,7 +43,13 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose true
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.7"
+    }
+
     namespace 'com.verindrzya.mytodo'
 }
 
@@ -67,10 +73,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
 
     // Paging2
     // implementation "androidx.paging:paging-runtime-ktx:$paging2_version"
@@ -88,9 +94,13 @@ dependencies {
 
     // Hilt for DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    ksp "com.google.dagger:hilt-compiler:$hilt_version"
 
     implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+
+    implementation platform("androidx.compose:compose-bom:2024.08.00")
+
+    implementation("androidx.compose.runtime:runtime")
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
