@@ -1,8 +1,8 @@
 package com.verindrzya.mytodo
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class TodoViewModel @Inject constructor(private val todoRepository: TodoRepository) : ViewModel() {
 
     private val todoId: MutableLiveData<Int> = MutableLiveData()
-    val todoItem = Transformations.switchMap(todoId) { id ->
+    val todoItem = todoId.switchMap { id ->
         todoRepository.getItem(id)
     }
 
