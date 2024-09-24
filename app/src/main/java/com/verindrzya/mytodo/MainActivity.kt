@@ -14,6 +14,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        val KEY_CLICKED_WIDGET_TODO_ID = "KEY_CLICKED_WIDGET_TODO_ID"
+    }
+
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
