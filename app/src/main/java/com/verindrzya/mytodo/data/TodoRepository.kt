@@ -30,4 +30,6 @@ class TodoRepository @Inject constructor(
 
     fun getItems() = todoDao.getItems()
 
+    fun getLimitedItems(limit: Int) = todoDao.getLimitedItems(limit)
+
 }
