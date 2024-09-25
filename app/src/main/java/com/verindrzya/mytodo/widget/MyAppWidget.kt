@@ -43,6 +43,8 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.verindrzya.mytodo.MainActivity
 import com.verindrzya.mytodo.R
+import com.verindrzya.mytodo.constant.PriorityLevel
+import com.verindrzya.mytodo.constant.PriorityLevelHelper
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.di.TodoListWidgetEntryPoint
 import dagger.hilt.EntryPoints
@@ -67,7 +69,7 @@ class MyAppWidget : GlanceAppWidget(
             .getTodoRepository()
 
         provideContent {
-            var selectedPriorityLevel by remember { mutableStateOf("All") }
+            var selectedPriorityLevel by remember { mutableStateOf(PriorityLevel.All.name) }
 
             val todoData by todoRepository.getLimitedItems(20, selectedPriorityLevel)
                 .collectAsState(initial = listOf())
@@ -106,7 +108,7 @@ class MyAppWidget : GlanceAppWidget(
                                 )
                                 .fillMaxWidth()
                         ) {
-                            for (priorityLevel in priorityLevels) {
+                            for (priorityLevel in PriorityLevelHelper.filterPriorityLevel) {
                                 RadioButton(
                                     checked = priorityLevel == selectedPriorityLevel,
                                     onClick = {
@@ -124,8 +126,7 @@ class MyAppWidget : GlanceAppWidget(
                     EmptyView()
                 } else {
                     TodoListContent(
-                        todoList = todoData,
-                        selectedPriorityLevel = selectedPriorityLevel
+                        todoList = todoData
                     )
                 }
             }
@@ -173,21 +174,13 @@ fun EmptyView(
 @Composable
 fun TodoListContent(
     todoList: List<Todo>,
-    selectedPriorityLevel: String,
     modifier: GlanceModifier = GlanceModifier,
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
     ) {
-        items(
-            items = if (selectedPriorityLevel == "All") {
-                todoList
-            } else {
-                todoList.filter { todo -> todo.priorityLevel == selectedPriorityLevel }
-            },
-
-            ) { todo ->
+        items(todoList) { todo ->
             TodoItem(
                 modifier = GlanceModifier.padding(
                     horizontal = 8.dp,
@@ -231,5 +224,3 @@ fun TodoItem(
         )
     }
 }
-
-private val priorityLevels = listOf("High", "Medium", "Low", "All")

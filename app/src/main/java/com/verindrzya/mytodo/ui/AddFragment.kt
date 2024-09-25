@@ -1,7 +1,6 @@
 package com.verindrzya.mytodo.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.verindrzya.mytodo.R
 import com.verindrzya.mytodo.TodoViewModel
+import com.verindrzya.mytodo.constant.PriorityLevel
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,9 +58,9 @@ class AddFragment : Fragment() {
             textInputTitle.setText(item.title)
             textInputDescription.setText(item.description)
             when (item.priorityLevel) {
-                getString(R.string.priority_high) -> radioHigh.isChecked = true
-                getString(R.string.priority_medium) -> radioMedium.isChecked = true
-                getString(R.string.priority_low) -> radioLow.isChecked = true
+                PriorityLevel.High.name -> radioHigh.isChecked = true
+                PriorityLevel.Medium.name -> radioMedium.isChecked = true
+                PriorityLevel.Low.name -> radioLow.isChecked = true
             }
 
             btnSubmit.setOnClickListener { updateItem() }
@@ -69,18 +69,14 @@ class AddFragment : Fragment() {
 
     private fun setRadio() {
         binding.rgPriority.check(R.id.radio_high)
-        radioCheckedValue = getString(R.string.priority_high)
-
-        Log.d("TestChecked2", "onViewCreated: $radioCheckedValue")
+        radioCheckedValue = PriorityLevel.High.name
 
         binding.rgPriority.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radio_high -> radioCheckedValue = getString(R.string.priority_high)
-                R.id.radio_medium -> radioCheckedValue = getString(R.string.priority_medium)
-                R.id.radio_low -> radioCheckedValue = getString(R.string.priority_low)
+                R.id.radio_high -> radioCheckedValue = PriorityLevel.High.name
+                R.id.radio_medium -> radioCheckedValue = PriorityLevel.Medium.name
+                R.id.radio_low -> radioCheckedValue = PriorityLevel.Low.name
             }
-
-            Log.d("TestChecked", "onViewCreated: $radioCheckedValue")
         }
     }
 

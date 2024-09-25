@@ -1,5 +1,6 @@
 package com.verindrzya.mytodo.data
 
+import com.verindrzya.mytodo.constant.PriorityLevel
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.data.database.TodoDao
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +36,7 @@ class TodoRepository @Inject constructor(
         limit: Int,
         priorityLevel: String
     ): Flow<List<Todo>> {
-        return if (priorityLevel.equals("all", true)) {
+        return if (priorityLevel.equals(PriorityLevel.All.name, true)) {
             todoDao.getLimitedItems(limit)
         } else {
             todoDao.getLimitedItems(limit, priorityLevel)
