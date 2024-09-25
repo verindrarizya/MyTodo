@@ -66,11 +66,10 @@ class MyAppWidget : GlanceAppWidget(
             .getTodoRepository()
 
         provideContent {
-            val todoData by todoRepository.getLimitedItems(20).collectAsState(
-                initial = listOf()
-            )
-
             var selectedPriorityLevel by remember { mutableStateOf("All") }
+
+            val todoData by todoRepository.getLimitedItems(20, selectedPriorityLevel)
+                .collectAsState(initial = listOf())
 
             Scaffold(
                 backgroundColor = ColorProvider(Color.Black),
@@ -96,27 +95,25 @@ class MyAppWidget : GlanceAppWidget(
                                 fontWeight = FontWeight.Bold
                             )
                         )
-                        if (todoData.isNotEmpty()) {
-                            Spacer(GlanceModifier.height(4.dp))
-                            Row(
-                                modifier = GlanceModifier
-                                    .padding(
-                                        start = 14.dp,
-                                        end = 14.dp,
-                                        bottom = 8.dp
-                                    )
-                                    .fillMaxWidth()
-                            ) {
-                                for (priorityLevel in priorityLevels) {
-                                    RadioButton(
-                                        checked = priorityLevel == selectedPriorityLevel,
-                                        onClick = {
-                                            selectedPriorityLevel = priorityLevel
-                                        },
-                                        text = priorityLevel
-                                    )
-                                    Spacer(modifier = GlanceModifier.width(6.dp))
-                                }
+                        Spacer(GlanceModifier.height(4.dp))
+                        Row(
+                            modifier = GlanceModifier
+                                .padding(
+                                    start = 14.dp,
+                                    end = 14.dp,
+                                    bottom = 8.dp
+                                )
+                                .fillMaxWidth()
+                        ) {
+                            for (priorityLevel in priorityLevels) {
+                                RadioButton(
+                                    checked = priorityLevel == selectedPriorityLevel,
+                                    onClick = {
+                                        selectedPriorityLevel = priorityLevel
+                                    },
+                                    text = priorityLevel
+                                )
+                                Spacer(modifier = GlanceModifier.width(6.dp))
                             }
                         }
                     }

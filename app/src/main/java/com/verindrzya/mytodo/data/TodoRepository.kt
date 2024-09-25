@@ -2,6 +2,7 @@ package com.verindrzya.mytodo.data
 
 import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.data.database.TodoDao
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,6 +31,15 @@ class TodoRepository @Inject constructor(
 
     fun getItems() = todoDao.getItems()
 
-    fun getLimitedItems(limit: Int) = todoDao.getLimitedItems(limit)
+    fun getLimitedItems(
+        limit: Int,
+        priorityLevel: String
+    ): Flow<List<Todo>> {
+        return if (priorityLevel.equals("all", true)) {
+            todoDao.getLimitedItems(limit)
+        } else {
+            todoDao.getLimitedItems(limit, priorityLevel)
+        }
+    }
 
 }

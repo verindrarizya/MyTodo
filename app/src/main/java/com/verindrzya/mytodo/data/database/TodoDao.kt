@@ -24,7 +24,14 @@ interface TodoDao {
     @Query("SELECT * FROM todos")
     fun getItems(): PagingSource<Int, Todo>
 
-    @Query("SELECT * FROM todos ORDER BY id DESC LIMIT :limit")
-    fun getLimitedItems(limit: Int): Flow<List<Todo>>
+    @Query("SELECT * FROM todos WHERE priority_level = :priorityLevel ORDER BY id DESC LIMIT :limit")
+    fun getLimitedItems(
+        limit: Int,
+        priorityLevel: String
+    ): Flow<List<Todo>>
 
+    @Query("SELECT * FROM todos ORDER BY id DESC LIMIT :limit")
+    fun getLimitedItems(
+        limit: Int
+    ): Flow<List<Todo>>
 }
