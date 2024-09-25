@@ -40,6 +40,18 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+        // To prevent the navigation navigate to detail when user is on list after pressing back
+        // from detail in case configuration change happened
+        if (savedInstanceState == null) {
+            val idFromClickedWidget = intent.getIntExtra(KEY_CLICKED_WIDGET_TODO_ID, 0)
+            if (idFromClickedWidget != 0) {
+                val bundle = Bundle().apply {
+                    putInt("id", idFromClickedWidget)
+                }
+                navController.navigate(R.id.detailFragment, bundle)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

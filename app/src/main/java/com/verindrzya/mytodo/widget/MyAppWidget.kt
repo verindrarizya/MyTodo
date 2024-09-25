@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -186,7 +187,7 @@ fun TodoListContent(
                 todoList.filter { todo -> todo.priorityLevel == selectedPriorityLevel }
             },
 
-        ) { todo ->
+            ) { todo ->
             TodoItem(
                 modifier = GlanceModifier.padding(
                     horizontal = 8.dp,
@@ -209,7 +210,13 @@ fun TodoItem(
             .fillMaxWidth()
             .background(Color.Cyan)
             .cornerRadius(8.dp)
-            .clickable(actionStartActivity<MainActivity>())
+            .clickable(
+                actionStartActivity<MainActivity>(
+                    actionParametersOf(
+                        clickedWidgetTodoIdKey to todoItem.id
+                    )
+                )
+            )
     ) {
         Text(
             text = todoItem.title

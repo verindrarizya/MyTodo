@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
@@ -77,15 +79,17 @@ class ListFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            adapter.loadStateFlow.collectLatest { loadState: CombinedLoadStates ->
-                val isListEmpty =
-                    loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-                if (isListEmpty) {
-                    setEmptyStatement()
-                } else {
-                    displayList()
+            adapter.loadStateFlow
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest { loadState: CombinedLoadStates ->
+                    val isListEmpty =
+                        loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                    if (isListEmpty) {
+                        setEmptyStatement()
+                    } else {
+                        displayList()
+                    }
                 }
-            }
         }
 
         binding.fabAdd.setOnClickListener { navigateToAdd() }
