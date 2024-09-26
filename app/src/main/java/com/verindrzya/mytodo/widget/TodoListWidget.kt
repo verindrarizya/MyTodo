@@ -14,18 +14,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.RadioButton
+import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
+import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -56,7 +59,7 @@ private val clickedWidgetTodoIdKey = ActionParameters.Key<Int>(
 /**
  * The Widget itself
  */
-class MyAppWidget : GlanceAppWidget(
+class TodoListWidget : GlanceAppWidget(
     errorUiLayout = R.layout.todo_widget_error_layout
 ) {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -74,61 +77,12 @@ class MyAppWidget : GlanceAppWidget(
             val todoData by todoRepository.getLimitedItems(20, selectedPriorityLevel)
                 .collectAsState(initial = listOf())
 
-            Scaffold(
-                backgroundColor = ColorProvider(Color.Black),
-                titleBar = {
-                    Column(
-                        modifier = GlanceModifier
-                            .fillMaxWidth()
-                    ) {
-                        Text(
-                            modifier = GlanceModifier
-                                .padding(
-                                    top = 10.dp,
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    bottom = 6.dp
-                                )
-                                .fillMaxWidth(),
-                            text = "Todo List",
-                            style = TextStyle(
-                                color = ColorProvider(Color.White),
-                                fontSize = 24.sp,
-                                fontStyle = FontStyle.Italic,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-                        Spacer(GlanceModifier.height(4.dp))
-                        Row(
-                            modifier = GlanceModifier
-                                .padding(
-                                    start = 14.dp,
-                                    end = 14.dp,
-                                    bottom = 8.dp
-                                )
-                                .fillMaxWidth()
-                        ) {
-                            for (priorityLevel in PriorityLevelHelper.filterPriorityLevel) {
-                                RadioButton(
-                                    checked = priorityLevel == selectedPriorityLevel,
-                                    onClick = {
-                                        selectedPriorityLevel = priorityLevel
-                                    },
-                                    text = priorityLevel
-                                )
-                                Spacer(modifier = GlanceModifier.width(6.dp))
-                            }
-                        }
-                    }
-                }
-            ) {
-                if (todoData.isEmpty()) {
-                    EmptyView()
-                } else {
-                    TodoListContent(
-                        todoList = todoData
-                    )
-                }
+            GlanceTheme {
+                TodoListScreen(
+                    todoList = todoData,
+                    selectedPriorityLevel = selectedPriorityLevel,
+                    onChangePriorityLevel = { selectedPriorityLevel = it }
+                )
             }
         }
     }
@@ -146,6 +100,75 @@ class MyAppWidget : GlanceAppWidget(
             "Error happened, please contact support / re-adding the widget\nError: $throwable"
         )
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, rv)
+    }
+}
+
+@Composable
+fun TodoListScreen(
+    modifier: GlanceModifier = GlanceModifier,
+    todoList: List<Todo>,
+    selectedPriorityLevel: String,
+    onChangePriorityLevel: (String) -> Unit
+) {
+    Scaffold(
+        modifier = modifier
+            .appWidgetBackground(),
+        titleBar = {
+            Column(
+                modifier = GlanceModifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    modifier = GlanceModifier
+                        .padding(
+                            top = 10.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 6.dp
+                        )
+                        .fillMaxWidth(),
+                    text = "Todo List",
+                    style = TextStyle(
+                        color = ColorProvider(
+                            day = Color.Black,
+                            night = Color.White,
+                        ),
+                        fontSize = 24.sp,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Spacer(GlanceModifier.height(4.dp))
+                Row(
+                    modifier = GlanceModifier
+                        .padding(
+                            start = 14.dp,
+                            end = 14.dp,
+                            bottom = 8.dp
+                        )
+                        .fillMaxWidth()
+                ) {
+                    for (priorityLevel in PriorityLevelHelper.filterPriorityLevel) {
+                        RadioButton(
+                            checked = priorityLevel == selectedPriorityLevel,
+                            onClick = {
+                                onChangePriorityLevel(priorityLevel)
+                            },
+                            text = priorityLevel
+                        )
+                        Spacer(modifier = GlanceModifier.width(6.dp))
+                    }
+                }
+            }
+        }
+    ) {
+        if (todoList.isEmpty()) {
+            EmptyView()
+        } else {
+            TodoListContent(
+                todoList = todoList
+            )
+        }
     }
 }
 

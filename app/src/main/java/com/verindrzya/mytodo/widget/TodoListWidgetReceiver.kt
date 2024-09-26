@@ -8,9 +8,9 @@ import androidx.glance.appwidget.GlanceAppWidgetReceiver
 /**
  * The receiver, extends from BroadcastReceiver
  */
-class MyAppWidgetReceiver : GlanceAppWidgetReceiver() {
+class TodoListWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget
-        get() = MyAppWidget()
+        get() = TodoListWidget()
 
     /**
      * called automatically based on, updatePeriodMillis in AppWidgetProviderInfo
