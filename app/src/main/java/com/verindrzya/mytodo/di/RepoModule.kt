@@ -27,5 +27,6 @@ class RepoModule {
         ).build()
 
     @Provides
+    @Singleton
     fun provideDao(todoDatabase: TodoDatabase): TodoDao = todoDatabase.todoDao()
 }

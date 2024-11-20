@@ -39,6 +39,8 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
+import androidx.glance.semantics.semantics
+import androidx.glance.semantics.testTag
 import androidx.glance.text.FontStyle
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
@@ -52,9 +54,11 @@ import com.verindrzya.mytodo.data.database.Todo
 import com.verindrzya.mytodo.di.TodoListWidgetEntryPoint
 import dagger.hilt.EntryPoints
 
-private val clickedWidgetTodoIdKey = ActionParameters.Key<Int>(
-    MainActivity.KEY_CLICKED_WIDGET_TODO_ID
-)
+object TodoListActionParam {
+    val clickedWidgetTodoIdKey = ActionParameters.Key<Int>(
+        MainActivity.KEY_CLICKED_WIDGET_TODO_ID
+    )
+}
 
 /**
  * The Widget itself
@@ -172,12 +176,97 @@ fun TodoListScreen(
     }
 }
 
+object TodoListTestTag {
+    val composableTag = "todo-list-composable-tag"
+}
+
+@Composable
+fun TodoListContent(
+    todoList: List<Todo>,
+    modifier: GlanceModifier = GlanceModifier,
+) {
+    LazyColumn(
+        modifier = modifier
+            .semantics { testTag = TodoListTestTag.composableTag }
+            .fillMaxSize()
+    ) {
+        items(
+            items = todoList,
+            itemId = { todo -> todo.id.toLong() }
+        ) { todo ->
+            Column {
+                TodoItem(
+                    modifier = GlanceModifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 4.dp
+                    ),
+                    todoItem = todo
+                )
+                Spacer(GlanceModifier.height(5.dp))
+            }
+        }
+    }
+}
+
+object TodoItemTestTag {
+    val composableTag = "todo-item-composable-tag"
+    val titleTag = "todo-item-title-tag"
+    val descriptionTag = "todo-item-description-tag"
+    val priorityLevelTag = "todo-item-priority-level-tag"
+}
+
+@Composable
+fun TodoItem(
+    todoItem: Todo,
+    modifier: GlanceModifier = GlanceModifier,
+) {
+    Column(
+        modifier = modifier
+            .semantics { testTag = TodoItemTestTag.composableTag }
+            .fillMaxWidth()
+            .cornerRadius(8.dp)
+            .clickable(
+                actionStartActivity<MainActivity>(
+                    actionParametersOf(
+                        TodoListActionParam.clickedWidgetTodoIdKey to todoItem.id
+                    )
+                )
+            )
+            .background(Color.Cyan)
+    ) {
+        Text(
+            modifier = GlanceModifier
+                .semantics { testTag = TodoItemTestTag.titleTag },
+            text = todoItem.title
+        )
+        Spacer(modifier = GlanceModifier.height(8.dp))
+        Text(
+            modifier = GlanceModifier
+                .semantics { testTag = TodoItemTestTag.descriptionTag },
+            text = "Description:\n${todoItem.description}"
+        )
+        Spacer(modifier = GlanceModifier.height(8.dp))
+        Text(
+            modifier = GlanceModifier
+                .semantics { testTag = TodoItemTestTag.priorityLevelTag },
+            text = todoItem.priorityLevel
+        )
+    }
+}
+
+object EmptyViewTestTag {
+    val composableTag = "empty-todo-list-composable-tag"
+}
+
 @Composable
 fun EmptyView(
     modifier: GlanceModifier = GlanceModifier
 ) {
     Box(
         modifier = modifier
+            .semantics {
+                testTag = EmptyViewTestTag.composableTag
+            }
             .fillMaxSize()
             .background(Color.Black),
         contentAlignment = Alignment.Center
@@ -190,60 +279,6 @@ fun EmptyView(
                 fontWeight = FontWeight.Bold,
                 fontStyle = FontStyle.Italic
             )
-        )
-    }
-}
-
-@Composable
-fun TodoListContent(
-    todoList: List<Todo>,
-    modifier: GlanceModifier = GlanceModifier,
-) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        items(todoList) { todo ->
-            TodoItem(
-                modifier = GlanceModifier.padding(
-                    horizontal = 8.dp,
-                    vertical = 2.dp
-                ),
-                todoItem = todo
-            )
-        }
-    }
-}
-
-@Composable
-fun TodoItem(
-    todoItem: Todo,
-    modifier: GlanceModifier = GlanceModifier,
-) {
-    Column(
-        modifier = modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .background(Color.Cyan)
-            .cornerRadius(8.dp)
-            .clickable(
-                actionStartActivity<MainActivity>(
-                    actionParametersOf(
-                        clickedWidgetTodoIdKey to todoItem.id
-                    )
-                )
-            )
-    ) {
-        Text(
-            text = todoItem.title
-        )
-        Spacer(modifier = GlanceModifier.height(8.dp))
-        Text(
-            text = "Description:\n${todoItem.description}"
-        )
-        Spacer(modifier = GlanceModifier.height(8.dp))
-        Text(
-            text = todoItem.priorityLevel
         )
     }
 }
