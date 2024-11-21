@@ -8,7 +8,7 @@
                 android:icon="@drawable/ic_home_black_24"
                 android:title="@string/home" />
             <item
-                android:id="@+id/settingsActivity_dest"
+                android:id="@+id/nav_setting"
                 android:icon="@drawable/ic_settings_black_24"
                 android:title="@string/settins" />
         </menu>

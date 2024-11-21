@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         // Action Bar set with nav support
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.listFragment, R.id.settingsActivity_dest),
+            setOf(R.id.nav_list, R.id.nav_setting),
             binding.root
         )
 
