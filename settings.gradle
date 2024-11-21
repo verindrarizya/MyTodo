@@ -1,2 +1,13 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "MyTodo"
 include ':app'
+include ':core:domain'
+include ':core:data'
+include ':core:di'

@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.verindrzya.mytodo.R
-import com.verindrzya.mytodo.core.domain.model.Todo
+import com.verindrzya.todo.core.domain.model.Todo
 import com.verindrzya.mytodo.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,7 +62,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun bind(todo: Todo) {
+    private fun bind(todo: com.verindrzya.todo.core.domain.model.Todo) {
         with(binding) {
             textInputTitle.setText(todo.title)
             textInputDescription.setText(todo.description)

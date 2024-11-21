@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.verindrzya.todo.core.data'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation(project(":core:domain"))
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Room
+    ksp "androidx.room:room-compiler:$room_version"
+    // Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-common-ktx:$paging_version"
+
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+
+    // Hilt for DI
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    ksp "com.google.dagger:hilt-compiler:$hilt_version"
+
+    testImplementation "junit:junit:$junit_version"
+
+    androidTestImplementation "androidx.test.ext:junit:$junit_android_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+}
