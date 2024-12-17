@@ -1,4 +1,4 @@
-package com.verindrzya.mytodo.feature.add
+package com.verindrzya.todo.add
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.verindrzya.mytodo.R
-import com.verindrzya.todo.core.domain.model.Todo
-import com.verindrzya.mytodo.databinding.FragmentAddBinding
+import com.verindrzya.todo.add.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
