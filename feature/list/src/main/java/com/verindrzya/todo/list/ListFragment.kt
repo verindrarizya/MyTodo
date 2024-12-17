@@ -1,4 +1,4 @@
-package com.verindrzya.mytodo.feature.list
+package com.verindrzya.todo.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,8 +15,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.verindrzya.mytodo.R
-import com.verindrzya.mytodo.databinding.FragmentListBinding
+import com.verindrzya.todo.list.databinding.FragmentListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

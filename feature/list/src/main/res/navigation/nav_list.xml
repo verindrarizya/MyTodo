@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.verindrzya.mytodo.feature.list.ListFragment"
+        android:name="com.verindrzya.todo.list.ListFragment"
         android:label="List"
         tools:layout="@layout/fragment_list">
         <action

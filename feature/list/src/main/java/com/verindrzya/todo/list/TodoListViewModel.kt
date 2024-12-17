@@ -1,4 +1,4 @@
-package com.verindrzya.mytodo.feature.list
+package com.verindrzya.todo.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
