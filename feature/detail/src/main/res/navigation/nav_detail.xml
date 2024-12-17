@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.verindrzya.mytodo.feature.detail.DetailFragment"
+        android:name="com.verindrzya.todo.detail.DetailFragment"
         android:label="Detail"
         tools:layout="@layout/fragment_detail">
         <argument

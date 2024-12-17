@@ -1,4 +1,4 @@
-package com.verindrzya.mytodo.feature.detail
+package com.verindrzya.todo.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
