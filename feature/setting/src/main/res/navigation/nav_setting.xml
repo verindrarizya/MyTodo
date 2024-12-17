@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/settingsActivity_dest"
-        android:name="com.verindrzya.mytodo.feature.setting.SettingsActivity"
+        android:name="com.verindrzya.todo.setting.SettingsActivity"
         android:label="activity_settings"
         tools:layout="@layout/activity_settings" />
 </navigation>

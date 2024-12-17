@@ -1,4 +1,4 @@
-package com.verindrzya.mytodo.feature.setting
+package com.verindrzya.todo.setting
 
 import android.os.Bundle
 import androidx.preference.PreferenceFragmentCompat
@@ -6,8 +6,6 @@ import androidx.preference.SwitchPreferenceCompat
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.verindrzya.mytodo.R
-import com.verindrzya.mytodo.feature.common.NotificationWorker
 import java.util.concurrent.TimeUnit
 
 class SettingsFragment : PreferenceFragmentCompat() {

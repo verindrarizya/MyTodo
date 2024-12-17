@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTodo">
         <activity
-            android:name=".feature.setting.SettingsActivity"
+            android:name="com.verindrzya.todo.setting.SettingsActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->

@@ -17,7 +17,4 @@
     <string name="settins">Settings</string>
     <string name="home">Home</string>
     <string name="menu">Menu</string>
-
-    <!-- key for preference  -->
-    <string name="notification_key">notification</string>
 </resources>

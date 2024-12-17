@@ -1,4 +1,4 @@
-package com.verindrzya.mytodo.feature.common
+package com.verindrzya.todo.setting
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.verindrzya.mytodo.R
 
 class NotificationWorker(
     context: Context,

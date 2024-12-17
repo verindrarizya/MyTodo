@@ -1,8 +1,8 @@
-package com.verindrzya.mytodo.feature.setting
+package com.verindrzya.todo.setting
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.verindrzya.mytodo.databinding.ActivitySettingsBinding
+import com.verindrzya.todo.setting.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
 
